@@ -1,0 +1,5 @@
+[APP_CONFIG]
+recipients = 
+weatherapi_key = 
+forecast_region = 
+forecast_day_num = 
