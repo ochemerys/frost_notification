@@ -14,9 +14,9 @@ def execute():
 
   message_to_send = ''
   for f in forecast:
-    print('Message on ' + f.forecast_date)
-    # if f.min_temp < 0:
-    #   message_to_send += 'On ' + f.forecast_date + ' min temperature is ' + str(f.min_temp) + '\n'
+    #print('Message on ' + f.forecast_date)
+    if f.min_temp < 0:
+      message_to_send += 'On ' + f.forecast_date + ' min temperature is ' + str(f.min_temp) + '\n'
      
   
   if(len(message_to_send) > 0):
