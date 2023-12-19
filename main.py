@@ -1,37 +1,25 @@
-import configparser
+import schedule
+import time
 
-from send_message import send_message
-from weather import get_forecast
+import config
+import notification_task
+    
+def schedule_daily_task(hour, minute):
+    # Schedule the task to run every day at the specified time
+    schedule.every().day.at(f"{hour:02}:{minute:02}").do(notification_task.execute)
 
-# Create a configuration object
-config = configparser.ConfigParser()
-
-def get_configuration(key):
-    # Load the configuration file
-    config.read('app_config.ini')
-
-    # Get the value associated with the key from the configuration file
-    return config['APP_CONFIG'].get(key)
-
+    # Infinite loop to continuously check if the scheduled task should run
+    while True:
+        schedule.run_pending()
+        time.sleep(60)  # Sleep for 60 seconds before checking again
 
 def main():
-  RECIPIENTS = get_configuration('recipients').split(',')
-  WEATHER_API_KEY = get_configuration('weatherapi_key')
-  FORECAST_REGION = get_configuration('forecast_region')
-  FORECAST_DAYS = get_configuration('forecast_day_num')
+    # Set the desired time (24-hour format)
+    SCHEDULED_HOUR = config.get_configuration('scheduled_hour')
+    SCHEDULED_MINUTE = config.get_configuration('scheduled_minute')
 
-  url = f'http://api.weatherapi.com/v1/forecast.json?key={WEATHER_API_KEY}&q={FORECAST_REGION}&days={FORECAST_DAYS}'
-  forecast = get_forecast(url)
-
-  message_to_send = ''
-  for f in forecast:
-     message_to_send += 'On ' + f.forecast_date + ' min temperature is ' + str(f.min_temp) + '\n'
-     
-  
-  if(len(message_to_send) > 0):
-    print(message_to_send)
-    for r in RECIPIENTS:
-      send_message(r, message_to_send)
+    # Start scheduling the daily task
+    schedule_daily_task(SCHEDULED_HOUR, SCHEDULED_MINUTE)
 
 if __name__ == "__main__":
     main()
