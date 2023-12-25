@@ -5,3 +5,4 @@ forecast_region =
 forecast_day_num = 
 scheduled_hour =
 scheduled_minute =
+notification_temp =
