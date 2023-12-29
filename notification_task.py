@@ -14,11 +14,17 @@ def execute():
   forecast = get_forecast(url)
 
   message_to_send = ''
-  for d in forecast:
-    print(f"Forecast on {d['forecast_date']}: min temperature is {d['min_temp']}")
-    if d['min_temp'] <= NOTIFICATION_TEMP:
-      message_to_send += f"On {d['forecast_date']} min temperature is {d['min_temp']}\n"
 
+  if len(forecast) > 0:
+    for d in forecast:
+      print(f"Forecast on {d['forecast_date']}: min temperature is {d['min_temp']}")
+      if d['min_temp'] <= NOTIFICATION_TEMP:
+        message_to_send += f"On {d['forecast_date']} min temperature is {d['min_temp']}\n"
+  else:
+    err_message = 'ERROR: Weather API failed to return forecast data'
+    print(err_message)
+    message_to_send = err_message
+  
   print('-'*50)   
 
   if(len(message_to_send) > 0):
