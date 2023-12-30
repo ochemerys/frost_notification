@@ -33,3 +33,18 @@ To run application in project folder
 ``` bash
 python main.py
 ```
+
+## Modules
+
+list of application modules
+
+### weather
+
+Retrieves weather forecast from API
+To get help open Python Standard REPL in application folder
+
+``` python
+import weather
+
+help(weather)
+```
